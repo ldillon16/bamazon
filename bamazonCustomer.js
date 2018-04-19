@@ -15,39 +15,26 @@ var connection = mysql.createConnection({
 
 });
 
-
-
 var itemsForSale = function() {
 	console.log("welcome to Bamazon!");
 	readProducts();
 }
-
-// connection.connect(function(err) {
-//   if (err) throw err;
-//   console.log("connected as id " + connection.threadId);
-//   afterConnection();
-// });
-
-// function afterConnection() {
-//   connection.query("SELECT * FROM products", function(err, res) {
-//     if (err) throw err;
-//     console.log(res);
-//     connection.end();
-//   });
-// }
-
 
 function readProducts() {
   console.log("Selecting all products...\n");
   connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
-    console.log(res);
-    // connection.end();
+    for (var i = 0; i < res.length; i++) {
+      console.log("  product: " + res[i].product_name + "\n  department: " + 
+        res[i].department_name + "\n  price per unit: " + res[i].price + "\n  current inventory: " + 
+        res[i].stock_quantity + " unit(s)" + "\n----------------------------------------");
+    }
+
     inquirer.prompt([
     	{
     		name: "question",
-    		message: "would you like to purchase a bamazon produt? (y/n)",
+    		message: "Would you like to purchase a Bamazon produt? (y/n)",
     			validate: function(value) {
           		if (value === "y" || value === "n") {
             		return true;
@@ -59,7 +46,7 @@ function readProducts() {
     	if (questResponse.question === "y") {
     		post();
     	} else if (questResponse.question === "n") {
-    		console.log("sorry we didn't have what you were looking for")
+    		console.log("Sorry we didn't have what you were looking for")
         connection.end();
     	}
     })
@@ -99,32 +86,9 @@ function post() {
         }
 	}
 
-// 	]).then(function(postResponse) {
-// 		console.log(postResponse);
-// 		// var item = new Product(postResponse.item_id, postResponse.product_name, postResponse.department_name, parseInt(postResponse.price), parseInt(postResponse.stock_quantity));
-// 		// var stringItem = JSON.stringify(item);
-// 		var custId = postResponse.item_id;
-// 		var custQuant = postResponse.desired_quantity;
-
-// 		console.log(custId + ", " + custQuant);
-
-//   	var query = connection.query("SELECT * FROM products WHERE item_id = custId", function (err, res) {
-//     	if (err) throw err;
-//     // Log all results of the SELECT statement
-//     	console.log(res);
-//     	connection.end();
-//   	});
-// 	})
-
-// }
-
 	]).then(function(postResponse) {
-		// console.log(postResponse);
-		var custId = parseInt(postResponse.item_id);
-		// var item = new Item(postResponse.name, postResponse.color, parseInt(postResponse.age));
-		// console.log("copy: " + JSON.stringify(item));
 
-  		// console.log(custId);
+		var custId = parseInt(postResponse.item_id);
 
 		var query = connection.query(
     	"SELECT * FROM products WHERE ?", {item_id: custId},
@@ -148,12 +112,14 @@ function post() {
     					"UPDATE products SET ? WHERE ?",
     					[
       						{
-        						stock_quantity: newQuant
+        						stock_quantity: newQuant,
+                    product_sales: totalCost                    
       						},
       						{
         						item_id: custId
       						}
     					],
+
     				function (err, res) {
       				// console.log(res.affectedRows + " products updated!\n");
       			console.log("your total cost will be $" + totalCost);

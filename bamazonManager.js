@@ -92,7 +92,6 @@ function addInv() {
           		}
           			return false;
       		}
-
       	}
 		
 
@@ -184,7 +183,10 @@ function addProduct() {
     		},
     	
     	function (err, res) {
-      		console.log(res.affectedRows + " product inserted!\n");
+      		console.log(res.affectedRows + " product inserted!");
+      		console.log("----------------------------------------\n  product: " + item.product_name + "\n  department: " + 
+        item.department_name + "\n  price per unit: " + item.price + "\n  current inventory: " + 
+        item.stock_quantity + " unit(s)" + "\n----------------------------------------");
        		connection.end();
     	}
   	);
