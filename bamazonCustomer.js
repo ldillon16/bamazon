@@ -60,6 +60,7 @@ function readProducts() {
     		post();
     	} else if (questResponse.question === "n") {
     		console.log("sorry we didn't have what you were looking for")
+        connection.end();
     	}
     })
    
@@ -68,18 +69,13 @@ function readProducts() {
 
 itemsForSale();
 
-
-
-
-
-function Product(name, color, age) {
-	this.item_id = item_id;
-	this.product_name = product_name;
-	this.department_name = department_name;
-	this.price = price;
-	this.stock_quantity = stock_quantity;
-};
-
+// function Product(name, color, age) {
+// 	this.item_id = item_id;
+// 	this.product_name = product_name;
+// 	this.department_name = department_name;
+// 	this.price = price;
+// 	this.stock_quantity = stock_quantity;
+// };
 
 function post() {
 	inquirer.prompt([
@@ -123,12 +119,12 @@ function post() {
 // }
 
 	]).then(function(postResponse) {
-		console.log(postResponse);
+		// console.log(postResponse);
 		var custId = parseInt(postResponse.item_id);
 		// var item = new Item(postResponse.name, postResponse.color, parseInt(postResponse.age));
 		// console.log("copy: " + JSON.stringify(item));
 
-  		console.log(custId);
+  		// console.log(custId);
 
 		var query = connection.query(
     	"SELECT * FROM products WHERE ?", {item_id: custId},
@@ -159,16 +155,12 @@ function post() {
       						}
     					],
     				function (err, res) {
-      				console.log(res.affectedRows + " products updated!\n");
+      				// console.log(res.affectedRows + " products updated!\n");
       			console.log("your total cost will be $" + totalCost);
-   			});
+   			    });
 
-  // logs the actual query being run
-  console.log(query.sql);
-      				}
-      			
       		}
-
+      	}
       		connection.end();
     	}
   	);
