@@ -45,15 +45,6 @@ supervisorOptions();
 
 
 
-
-
- 
-// instantiate 
-
-
-
-
-
 function viewDeptSales() {
   console.log("product sales by department ");
   var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, SUM(products.product_sales) AS total_sales, (SUM(products.product_sales) - departments.over_head_costs) AS total_profit FROM departments INNER JOIN products ON departments.department_name=products.department_name GROUP BY department_name ORDER BY department_id ASC";
@@ -82,7 +73,47 @@ var table = new Table({
 
 function createDept() {
 	console.log("creating department...");
-};
+
+  inquirer.prompt([
+  {
+    name: "department_name",
+    message: "what department would you like to add?"
+  }
+
+  ]).then(function(response) {
+    console.log(response);
+    var department = new Department(response.department_name);
+    console.log("copy: " + JSON.stringify(department));
+
+      console.log("Inserting a new department...\n");
+      var query = connection.query(
+      "INSERT INTO departments SET ?",
+        {
+ 
+            department_name: department.department_name,
+
+        },
+      
+      function (err, res) {
+          console.log(res.affectedRows + " product inserted!");
+          console.log("\n  department: " + department.department_name + "\n----------------------------------------");
+          connection.end();
+      }
+    );
+
+  // logs the actual query being run
+  console.log(query.sql);
+})
+
+}
+
+function Department(department_name) {
+
+  this.department_name = department_name;
+
+}
+
+
 
 
 
