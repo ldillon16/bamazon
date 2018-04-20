@@ -70,7 +70,7 @@ function post() {
 		name: "item_id",
 		message: "what is the numerical id of the item you'd like to purchase?",
 		  validate: function(value) {
-          if (isNaN(value) === false && parseInt(value) > 0 && parseInt(value) <= 10) {
+          if (isNaN(value) === false && parseInt(value) > 0 && parseInt(value) <= 20) {
             return true;
           }
           return false;
@@ -100,6 +100,7 @@ function post() {
 
       		if (postResponse.desired_quantity > ans[0].stock_quantity) {
       			console.log("insufficient quantity!")
+            connection.end();
       		} else {
       			var newQuant = (origQuant - desiredQuant);
       			var totalCost = (desiredQuant * cost);
