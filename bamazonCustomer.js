@@ -26,7 +26,7 @@ function readProducts() {
     if (err) throw err;
     // Log all results of the SELECT statement
     for (var i = 0; i < res.length; i++) {
-      console.log("  product: " + res[i].product_name + "\n  department: " + 
+      console.log("  product id: " + res[i].item_id + "\n  product: " + res[i].product_name + "\n  department: " + 
         res[i].department_name + "\n  price per unit: " + res[i].price + "\n  current inventory: " + 
         res[i].stock_quantity + " unit(s)" + "\n----------------------------------------");
     }

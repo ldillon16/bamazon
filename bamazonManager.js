@@ -49,9 +49,14 @@ function viewProducts() {
   connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
-    console.log(res);
+    for (var i = 0; i < res.length; i++) {
+      console.log("  product id: " + res[i].item_id + "\n  product: " + res[i].product_name + "\n  department: " + 
+        res[i].department_name + "\n  price per unit: " + res[i].price + "\n  current inventory: " + 
+        res[i].stock_quantity + " unit(s)" + "\n----------------------------------------");
+    }
+
     connection.end();
-   
+    managerOptions();
   });
 }
 
@@ -62,12 +67,11 @@ function viewLowInv() {
     connection.query(query, function(err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-    	console.log("  product: " + res[i].product_name + "\n  current inventory: " + res[i].stock_quantity + " unit(s)");
+    	console.log("----------------------------------------" + "\n  product: " + res[i].product_name  + "\n  current inventory: " + res[i].stock_quantity + " unit(s)\n");
     }   	
     })
 
-    connection.end();
-   
+   connection.end();
   };
 
 
