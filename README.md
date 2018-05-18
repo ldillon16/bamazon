@@ -1,5 +1,8 @@
 # bamazon
 
+A node application that allows for the simulation of an online retailer through a mysql database. Three modes include customer, manager, and supervisor. 
+
+
 Bamazon Customer:
 
 ![bamazon customer first screen shot](https://github.com/ldillon16/bamazon/blob/master/bamazoncustomer-screenshot-1.png)
